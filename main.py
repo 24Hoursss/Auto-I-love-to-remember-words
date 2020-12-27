@@ -24,14 +24,14 @@ def saveDict(dic, path):
     f = open(path, 'w')
     f.write(str(dic))
     f.close()
-    print("save dict successfully.")
+    print("字典保存成功")
 
 
 def loadDict(path):
     f = open(path, 'r')
     _dic = eval(f.read())
     f.close()
-    print("load dict successfully.")
+    print("字典载入成功")
     return _dic
 
 
@@ -103,8 +103,8 @@ time.sleep(random.randint(1, 4))
 getWithOptions(
     'https://skl.hdu.edu.cn/api/paper/list?type=0&week=' + str(weekToday) + '&schoolYear=&semester=')
 
-
-for i in range(100):
+score = 0
+while score != 100:
     # 拿练习卷
     paper = getWithOptions(
         'https://skl.hdu.edu.cn/api/paper/new?type=0&week=' + str(weekToday))
@@ -129,14 +129,15 @@ for i in range(100):
         _temp = eval(tempStr)
         listTemp.append(_temp)
     paperUploaded['list'] = listTemp
-    print(paperUploaded)
+    # print(paperUploaded)
 
     if setting['fastMode'] == 0:
-        time.sleep(random.randint(10, 20))
+        time.sleep(random.randint(1, 5))
 
     # 提交卷子
     r = postWithOptions('https://skl.hdu.edu.cn/api/paper/save', paperUploaded)
-    print('本次得分' + str(r.json()['mark']))
+    score = r.json()['mark']
+    print('本次得分' + str(score))
 
     # 抓答案
     answerRecived = getWithOptions(
@@ -144,5 +145,5 @@ for i in range(100):
 
     for _answer in answerRecived['list']:
         answer[_answer['title']] = _answer['answer']
-
+    print('当前已收录答案数量：' + str(len(answer)))
     saveAnswer(answer)
