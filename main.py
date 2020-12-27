@@ -119,16 +119,19 @@ while score != 100:
     paperUploaded['paperId'] = paperId
     listTemp = []
     temp = {}
+    recordedAnswer = 0  # 记录当前数据库中有题目答案的数量
     for paperDelail in paper.json()['list']:
         temp['paperDetailId'] = paperDelail['paperDetailId']
         temp['input'] = 'A'
         if paperDelail['title'] in answer:
             temp['input'] = answer[paperDelail['title']]
+            recordedAnswer = recordedAnswer + 1
         # 下面做一下转换处理 保证字典成功加入数组
         tempStr = str(temp)
         _temp = eval(tempStr)
         listTemp.append(_temp)
     paperUploaded['list'] = listTemp
+    print('当前题库覆盖率：' + str(recordedAnswer) + '%')
     # print(paperUploaded)
 
     if setting['fastMode'] == 0:
