@@ -129,14 +129,16 @@ class FuckWords:
                         (ord(_word)-ord('A')+random.randint(1, 3)) % 4+ord('A'))
                     recordedAnswer = recordedAnswer-1
                 changedList.append(randomNum)
+            print('降分完成 一看就是老演员了')
 
         # 将所有未知答案的题目做一下处理
         for _temp in paperUploaded['list']:
             if _temp['input'] == 'Z':
                 _temp['input'] = 'A'
-
-        time.sleep(timeDelay)
-
+        for i in range(timeDelay):
+            print('\r剩余等待时间：'+str(timeDelay-i)+'s', end='')
+            time.sleep(1)
+        print()
         # 提交卷子
         r = self.postWithOptions(
             'https://skl.hdu.edu.cn/api/paper/save', paperUploaded)

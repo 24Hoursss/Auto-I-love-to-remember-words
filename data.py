@@ -1,16 +1,21 @@
-localPath = '.'
+import os
 
 
 def saveAnswer(dic):
-    saveDict(dic, localPath + '\\awsNew.txt')
+    saveDict(dic, '.\\awsNew.txt')
 
 
 def loadAnswer():
-    return loadDict(localPath + '\\awsNew.txt')
+    path = '.\\awsNew.txt'
+    if not os.path.exists(path):
+        print('题库文件不存在，即将创建')
+        saveAnswer({})
+        print('创建完成')
+    return loadDict(path)
 
 
 def loadSetting():
-    return loadDict(localPath + '\\setting.txt')
+    return loadDict('.\\setting.txt')
 
 
 def saveDict(dic, path):
